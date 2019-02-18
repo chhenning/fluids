@@ -62,6 +62,24 @@ struct FluidCube
         advect(0, density, s, Vx, Vy, dt, N);
     }
 
+    void Render(vector<unsigned char>& pixels)
+    {
+        for (int y = 0; y < size; ++y)
+        {
+            for (int x = 0; x < size; ++x)
+            {
+                unsigned char d = (unsigned char) density[IX(x, y)];
+
+                const unsigned int offset = (size * 4 * y) + x * 4;
+                pixels[offset + 0] = d;        // b
+                pixels[offset + 1] = d;        // g
+                pixels[offset + 2] = d;        // r
+                pixels[offset + 3] = SDL_ALPHA_OPAQUE;    // a
+
+            }
+        }
+    }
+
     void lin_solve(int b, vector<float>& x, vector<float>& x0, float a, float c, int iter, int N)
     {
         float cRecip = 1.f / c;
